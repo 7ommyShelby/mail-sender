@@ -152,7 +152,7 @@ app.post("/api/sendmail", async (req, res) => {
     }
   });
 
-  res.json(
+  res.send(
             `<!DOCTYPE html>
             <html lang="en">
             <head>
