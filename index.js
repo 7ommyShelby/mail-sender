@@ -96,12 +96,12 @@ const transporter = nodemailer.createTransport({
 
 app.post("/api/sendmail", async (req, res) => {
 
-    // console.log(req.body.message);
+    console.log(req.body);
 
         const mailOptions = {
             from: mail, // Replace with your email address
-            to: 'aryaalsaher@gmail.com', // Replace with the recipient's email address
-            subject: 'Sending Email using Ayana', // Replace with your desired subject
+            to: req.body.email, // Replace with the recipient's email address
+            subject: 'Sending Email using nodemailer', // Replace with your desired subject
             // text: req.body.text, // Plain text content
             // or
             html: `<html lang="en">
