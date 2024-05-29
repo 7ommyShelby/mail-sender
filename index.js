@@ -10,7 +10,7 @@ app.use(express.urlencoded());
 
 
 app.get('/', (req, res) => {
-    res.send(`
+  res.send(`
     <!DOCTYPE html>
     <html lang="en">
     <head>
@@ -81,30 +81,30 @@ app.get('/', (req, res) => {
     </body>
     </html>  
     `);
-  });
+});
 
 
 const transporter = nodemailer.createTransport({
-    host: "smtp-mail.outlook.com",
-    port: 587,
-    secure: false, // Use `true` for port 465, `false` for all other ports
-    auth: {
-        user: mail,
-        pass: pass,
-    },
+  host: "smtp-mail.outlook.com",
+  port: 587,
+  secure: false, // Use `true` for port 465, `false` for all other ports
+  auth: {
+    user: mail,
+    pass: pass,
+  },
 });
 
 app.post("/api/sendmail", async (req, res) => {
 
-    console.log(req.body);
+  console.log(req.body);
 
-        const mailOptions = {
-            from: mail, // Replace with your email address
-            to: req.body.email, // Replace with the recipient's email address
-            subject: 'Sending Email using nodemailer', // Replace with your desired subject
-            // text: req.body.text, // Plain text content
-            // or
-            html: `<html lang="en">
+  const mailOptions = {
+    from: mail, // Replace with your email address
+    to: req.body.email, // Replace with the recipient's email address
+    subject: req.body.subject, // Replace with your desired subject
+    // text: req.body.text, // Plain text content
+    // or
+    html: `<html lang="en">
             <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,23 +143,35 @@ app.post("/api/sendmail", async (req, res) => {
               </div>
             </body>
             </html>`
-        };
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.error(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error(error);
+    } else {
+      console.log('Email sent: ' + info.response);
+    }
+  });
 
-        res.json({
-            success: true,
-            message: "mail sent successfully"
-        })
+  res.json(
+            `<!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Email Sent</title>
+            </head>
+            <body style="font-family: Arial, sans-serif; text-align: center;">
+            <div style="background-color: #dff0d8; color: #3c763d; padding: 20px; border: 1px solid #d6e9c6; border-radius: 5px; margin: 20px auto; max-width: 400px;">
+                <p>Email sent successfully</p>
+            </div>
+            </body>
+            </html>
+            `
+        )
 
 })
 
 
 app.listen(8000, () => {
-    console.log("server running");
+  console.log("server running");
 })
